@@ -16,6 +16,7 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("null")
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;

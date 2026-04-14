@@ -10,7 +10,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
@@ -32,7 +31,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing authorization header");
             }
 
-            String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+            java.util.List<String> authHeaders = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
+            if (authHeaders == null || authHeaders.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid authorization header");
+            }
+            String authHeader = authHeaders.get(0);
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid authorization header");
             }

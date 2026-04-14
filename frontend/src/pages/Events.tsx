@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, Button, Paper, TextField, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, Grid, Card, CardContent, CardActions, Chip } from '@mui/material';
-import { CalendarDays, MapPin, Plus, Trash2, Edit2, Clock } from 'lucide-react';
+import { Box, Typography, Button, TextField, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, Grid, Card, CardContent, CardActions, Chip, CircularProgress } from '@mui/material';
+import { CalendarDays, MapPin, Plus, Trash2, Edit2 } from 'lucide-react';
 import api from '../services/api';
 import { motion } from 'framer-motion';
 
@@ -79,6 +79,12 @@ const Events = () => {
           </Button>
         )}
       </Box>
+
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+          <CircularProgress sx={{ color: '#6C3CE1' }} />
+        </Box>
+      )}
 
       <Grid container spacing={3}>
         {events.map((event: any, index: number) => (
