@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "c7a2e1d4-8d9e-4a6b-bc5e-888888888888",
+		"name": "Campus Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@campus.com\",\n    \"password\": \"admin123\",\n    \"role\": \"ROLE_ADMIN\"\n}",
+							"options": { "json": { "language": "json" } }
+						},
+						"url": "http://localhost:8080/api/auth/register"
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@campus.com\",\n    \"password\": \"admin123\"\n}",
+							"options": { "json": { "language": "json" } }
+						},
+						"url": "http://localhost:8080/api/auth/login"
+					}
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Get All Students",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+						],
+						"url": "http://localhost:8080/api/students"
+					}
+				}
+			]
+		}
+	]
+}

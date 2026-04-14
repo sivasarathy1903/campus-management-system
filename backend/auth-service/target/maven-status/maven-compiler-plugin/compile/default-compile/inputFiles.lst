@@ -1,0 +1,17 @@
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\dto\AuthResponse.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\security\SecurityConfig.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\dto\LoginRequest.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\service\AuthService.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\service\AuthServiceImpl.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\entity\Role.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\security\JwtAuthenticationFilter.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\security\UserDetailsImpl.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\entity\User.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\exception\EmailAlreadyExistsException.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\repository\UserRepository.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\security\JwtUtil.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\exception\GlobalExceptionHandler.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\AuthServiceApplication.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\controller\AuthController.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\dto\RegisterRequest.java
+C:\Users\sivas\OneDrive\Desktop\vs code files\IP_Mini_Project\backend\auth-service\src\main\java\com\campus\auth\security\UserDetailsServiceImpl.java

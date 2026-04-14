@@ -1,0 +1,4 @@
+com\campus\gateway\filter\AuthenticationFilter.class
+com\campus\gateway\filter\AuthenticationFilter$Config.class
+com\campus\gateway\config\JwtUtil.class
+com\campus\gateway\ApiGatewayApplication.class
