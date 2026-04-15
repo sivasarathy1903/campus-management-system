@@ -9,26 +9,26 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: http://campus-auth-service:8081
+          uri: https://campus-auth-service.onrender.com
           predicates:
             - Path=/api/auth/**
 
         - id: student-service
-          uri: http://campus-student-siva:8082
+          uri: https://campus-student-siva.onrender.com
           predicates:
             - Path=/api/students/**
           filters:
             - AuthenticationFilter
 
         - id: event-service
-          uri: http://campus-event-siva:8083
+          uri: https://campus-event-siva.onrender.com
           predicates:
             - Path=/api/events/**
           filters:
             - AuthenticationFilter
 
         - id: faculty-service
-          uri: http://campus-faculty-siva:8084
+          uri: https://campus-faculty-siva.onrender.com
           predicates:
             - Path=/api/faculty/**
           filters:
