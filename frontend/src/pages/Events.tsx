@@ -4,8 +4,18 @@ import { CalendarDays, MapPin, Plus, Trash2, Edit2, Upload, X } from 'lucide-rea
 import api from '../services/api';
 import { motion } from 'framer-motion';
 
+interface Event {
+  id: string;
+  name: string;
+  location: string;
+  date: string;
+  description: string;
+  photos: string[];
+  activePhotoIndex?: number;
+}
+
 const Events = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', location: '', date: '', description: '' });
@@ -136,7 +146,7 @@ const Events = () => {
                 {event.photos && event.photos.length > 0 && (
                   <Box sx={{ height: 180, overflow: 'hidden', position: 'relative' }}>
                     <img 
-                      src={event.photos[event.activePhotoIndex || 0]?.startsWith('http') ? event.photos[event.activePhotoIndex || 0] : `http://localhost:8083${event.photos[event.activePhotoIndex || 0]}`}
+                      src={event.photos[event.activePhotoIndex || 0]?.startsWith('http') ? event.photos[event.activePhotoIndex || 0] : `${import.meta.env.VITE_API_URL}${event.photos[event.activePhotoIndex || 0]}`}
                       alt={event.name}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />

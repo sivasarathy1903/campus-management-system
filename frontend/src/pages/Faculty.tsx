@@ -105,7 +105,7 @@ const Faculty = () => {
       width: 80,
       renderCell: (params) => (
         <Avatar 
-          src={params.value?.startsWith('http') ? params.value : `http://localhost:8083${params.value}`} 
+          src={params.value?.startsWith('http') ? params.value : `${import.meta.env.VITE_API_URL}${params.value}`} 
           sx={{ width: 40, height: 40, border: '2px solid rgba(255,255,255,0.1)' }}
         />
       )
@@ -124,7 +124,7 @@ const Faculty = () => {
             onClick={() => {
               setEditingId(params.row.id);
               setFormData({ name: params.row.name, department: params.row.department, designation: params.row.designation });
-              setPreviewUrl(params.row.profilePhoto?.startsWith('http') ? params.row.profilePhoto : `http://localhost:8084${params.row.profilePhoto}`);
+              setPreviewUrl(params.row.profilePhoto?.startsWith('http') ? params.row.profilePhoto : `${import.meta.env.VITE_API_URL}${params.row.profilePhoto}`);
               setOpen(true);
             }}
             disabled={!isAdmin && !isFacultyRole}
