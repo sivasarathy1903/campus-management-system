@@ -27,3 +27,5 @@ target/
 
 # Vite cache
 frontend/.vite/
+
+uploads/

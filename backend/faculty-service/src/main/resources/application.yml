@@ -7,4 +7,4 @@ spring:
 
   data:
     mongodb:
-        uri: mongodb://localhost:27017/faculty_db
+        uri: ${SPRING_DATA_MONGODB_URI}
