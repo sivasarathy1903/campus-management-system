@@ -16,16 +16,16 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         
-        // Allowed origins (Your frontend)
-        corsConfig.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
+        // Allowed origins (Strictly pointing to production frontend)
+        corsConfig.setAllowedOrigins(Collections.singletonList("https://campus-management-system-amber.vercel.app"));
         
         // Allowed HTTP methods
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         
-        // Allowed headers
-        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "X-Requested-With"));
+        // Allowed headers (Standardizing to all headers for flexibility with JWT)
+        corsConfig.setAllowedHeaders(Collections.singletonList("*"));
         
-        // Allow credentials (necessary for cookies/auth headers)
+        // Allow credentials (CRITICAL: Must match with setAllowedOrigins being exact)
         corsConfig.setAllowCredentials(true);
         
         // Max age for preflight requests
