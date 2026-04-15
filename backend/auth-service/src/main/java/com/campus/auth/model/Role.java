@@ -1,4 +1,4 @@
-package com.campus.auth.entity;
+package com.campus.auth.model;
 
 public enum Role {
     ROLE_STUDENT,

@@ -1,7 +1,7 @@
 package com.campus.faculty.service;
 
 import com.campus.faculty.dto.FacultyDto;
-import com.campus.faculty.entity.Faculty;
+import com.campus.faculty.model.Faculty;
 import com.campus.faculty.exception.ResourceNotFoundException;
 import com.campus.faculty.repository.FacultyRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public FacultyDto updateFaculty(Long id, FacultyDto facultyDto) {
+    public FacultyDto updateFaculty(String id, FacultyDto facultyDto) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Faculty not found with id: " + id));
 
@@ -43,14 +43,14 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public void deleteFaculty(Long id) {
+    public void deleteFaculty(String id) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Faculty not found with id: " + id));
         facultyRepository.delete(faculty);
     }
 
     @Override
-    public FacultyDto getFacultyById(Long id) {
+    public FacultyDto getFacultyById(String id) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Faculty not found with id: " + id));
         return mapToDto(faculty);
@@ -71,12 +71,40 @@ public class FacultyServiceImpl implements FacultyService {
                 keyword, keyword, pageable).map(this::mapToDto);
     }
 
+    @Override
+    public FacultyDto uploadPhoto(String id, org.springframework.web.multipart.MultipartFile file) {
+        Faculty faculty = facultyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Faculty not found with id: " + id));
+
+        try {
+            // Delete old photo if exists
+            if (faculty.getProfilePhoto() != null && !faculty.getProfilePhoto().contains("default")) {
+                String oldPath = faculty.getProfilePhoto().replace("/uploads/", "");
+                java.nio.file.Files.deleteIfExists(java.nio.file.Paths.get("uploads").resolve(oldPath));
+            }
+
+            String photoPath = com.campus.faculty.util.FileStorageUtil.saveFile("faculty", file);
+            faculty.setProfilePhoto(photoPath);
+            faculty = facultyRepository.save(faculty);
+
+            return mapToDto(faculty);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to store photo: " + e.getMessage(), e);
+        }
+    }
+
     private FacultyDto mapToDto(Faculty faculty) {
+        String profilePhoto = faculty.getProfilePhoto();
+        if (profilePhoto == null || profilePhoto.isEmpty()) {
+            profilePhoto = "https://ui-avatars.com/api/?name=" + faculty.getName().replace(" ", "+") + "&background=random";
+        }
+
         return FacultyDto.builder()
                 .id(faculty.getId())
                 .name(faculty.getName())
                 .department(faculty.getDepartment())
                 .designation(faculty.getDesignation())
+                .profilePhoto(profilePhoto)
                 .build();
     }
 }

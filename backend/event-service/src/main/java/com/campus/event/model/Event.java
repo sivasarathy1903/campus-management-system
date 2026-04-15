@@ -1,15 +1,17 @@
-package com.campus.event.entity;
+package com.campus.event.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-@Table(name = "events")
+@Document(collection = "events")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,18 +19,13 @@ import java.time.LocalDate;
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String location;
-
-    @Column(nullable = false)
     private LocalDate date;
-
-    @Column(length = 1000)
     private String description;
+
+    @Builder.Default
+    private List<String> photos = new ArrayList<>();
 }

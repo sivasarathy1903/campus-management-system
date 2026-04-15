@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class FacultyDto {
-    private Long id;
+    private String id;
+    private String profilePhoto;
 
     @NotBlank(message = "Name is required")
     private String name;

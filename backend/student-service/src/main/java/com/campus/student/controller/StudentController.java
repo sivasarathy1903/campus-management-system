@@ -26,7 +26,7 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentDto> getStudent(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestHeader("X-User-Role") String role,
             @RequestHeader("X-Username") String email) {
         return ResponseEntity.ok(studentService.getStudentById(id, role, email));
@@ -34,7 +34,7 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentDto> updateStudent(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody StudentDto studentDto,
             @RequestHeader("X-User-Role") String role,
             @RequestHeader("X-Username") String email) {
@@ -43,10 +43,19 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestHeader("X-User-Role") String role) {
         studentService.deleteStudent(id, role);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/photo")
+    public ResponseEntity<StudentDto> uploadPhoto(
+            @PathVariable String id,
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
+            @RequestHeader("X-User-Role") String role,
+            @RequestHeader("X-Username") String email) {
+        return ResponseEntity.ok(studentService.uploadPhoto(id, file, role, email));
     }
 
     @GetMapping

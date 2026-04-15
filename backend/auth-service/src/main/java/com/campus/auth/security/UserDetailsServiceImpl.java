@@ -1,6 +1,6 @@
 package com.campus.auth.security;
 
-import com.campus.auth.entity.User;
+import com.campus.auth.model.User;
 import com.campus.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

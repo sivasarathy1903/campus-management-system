@@ -1,13 +1,13 @@
-package com.campus.faculty.entity;
+package com.campus.faculty.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "faculty")
+@Document(collection = "faculty")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,15 +15,10 @@ import lombok.NoArgsConstructor;
 public class Faculty {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String department;
-
-    @Column(nullable = false)
     private String designation;
+    private String profilePhoto;
 }

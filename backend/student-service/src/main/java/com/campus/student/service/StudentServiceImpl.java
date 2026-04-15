@@ -3,7 +3,7 @@ package com.campus.student.service;
 import com.campus.student.client.AuthRegisterRequest;
 import com.campus.student.client.AuthServiceClient;
 import com.campus.student.dto.StudentDto;
-import com.campus.student.entity.Student;
+import com.campus.student.model.Student;
 import com.campus.student.exception.ResourceNotFoundException;
 import com.campus.student.exception.UnauthorizedAccessException;
 import com.campus.student.repository.StudentRepository;
@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDto updateStudent(Long id, StudentDto studentDto, String requesterRole, String requesterEmail) {
+    public StudentDto updateStudent(String id, StudentDto studentDto, String requesterRole, String requesterEmail) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
 
@@ -78,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(Long id, String requesterRole) {
+    public void deleteStudent(String id, String requesterRole) {
         if (!"ROLE_ADMIN".equals(requesterRole)) {
             throw new UnauthorizedAccessException("Only ADMIN can delete students");
         }
@@ -89,7 +89,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDto getStudentById(Long id, String requesterRole, String requesterEmail) {
+    public StudentDto getStudentById(String id, String requesterRole, String requesterEmail) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
 
@@ -97,6 +97,32 @@ public class StudentServiceImpl implements StudentService {
             throw new UnauthorizedAccessException("You can only view your own profile directly. Use search for others.");
         }
         return mapToDto(student);
+    }
+
+    @Override
+    public StudentDto uploadPhoto(String id, org.springframework.web.multipart.MultipartFile file, String requesterRole, String requesterEmail) {
+        if (!"ROLE_ADMIN".equals(requesterRole) && !"ROLE_FACULTY".equals(requesterRole)) {
+            throw new UnauthorizedAccessException("Forbidden: Only ADMIN or FACULTY can upload photos.");
+        }
+
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+
+        try {
+            // Delete old photo if exists
+            if (student.getProfilePhoto() != null && !student.getProfilePhoto().contains("default")) {
+                String oldPath = student.getProfilePhoto().replace("/uploads/", "");
+                java.nio.file.Files.deleteIfExists(java.nio.file.Paths.get("uploads").resolve(oldPath));
+            }
+
+            String photoPath = com.campus.student.util.FileStorageUtil.saveFile("students", file);
+            student.setProfilePhoto(photoPath);
+            student = studentRepository.save(student);
+
+            return mapToDto(student);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to store photo: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -117,12 +143,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private StudentDto mapToDto(Student student) {
+        String profilePhoto = student.getProfilePhoto();
+        if (profilePhoto == null || profilePhoto.isEmpty()) {
+            profilePhoto = "https://ui-avatars.com/api/?name=" + student.getName().replace(" ", "+") + "&background=random";
+        }
+
         return StudentDto.builder()
                 .id(student.getId())
                 .name(student.getName())
                 .department(student.getDepartment())
                 .email(student.getEmail())
                 .createdBy(student.getCreatedBy())
+                .profilePhoto(profilePhoto)
                 .createdAt(student.getCreatedAt())
                 .updatedAt(student.getUpdatedAt())
                 .build();

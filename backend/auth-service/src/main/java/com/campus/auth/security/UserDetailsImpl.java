@@ -1,6 +1,6 @@
 package com.campus.auth.security;
 
-import com.campus.auth.entity.User;
+import com.campus.auth.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

@@ -3,8 +3,8 @@ package com.campus.auth.service;
 import com.campus.auth.dto.AuthResponse;
 import com.campus.auth.dto.LoginRequest;
 import com.campus.auth.dto.RegisterRequest;
-import com.campus.auth.entity.Role;
-import com.campus.auth.entity.User;
+import com.campus.auth.model.Role;
+import com.campus.auth.model.User;
 import com.campus.auth.exception.EmailAlreadyExistsException;
 import com.campus.auth.repository.UserRepository;
 import com.campus.auth.security.JwtUtil;
@@ -46,13 +46,13 @@ public class AuthServiceImpl implements AuthService {
 
         User savedUser = userRepository.save(java.util.Objects.requireNonNull(user));
         UserDetailsImpl userDetails = new UserDetailsImpl(savedUser);
-        String jwtToken = jwtUtil.generateToken(userDetails, savedUser.getRole().name(), savedUser.getId());
+        String jwtToken = jwtUtil.generateToken(userDetails, savedUser.getRole().toString(), savedUser.getId());
 
         return AuthResponse.builder()
                 .token(jwtToken)
-                .id(user.getId())
-                .email(user.getEmail())
-                .role(user.getRole().name())
+                .id(savedUser.getId())
+                .email(savedUser.getEmail())
+                .role(savedUser.getRole().toString())
                 .build();
     }
 
@@ -65,13 +65,13 @@ public class AuthServiceImpl implements AuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
         
-        String jwtToken = jwtUtil.generateToken(userDetails, user.getRole().name(), user.getId());
+        String jwtToken = jwtUtil.generateToken(userDetails, user.getRole().toString(), user.getId());
 
         return AuthResponse.builder()
                 .token(jwtToken)
                 .id(user.getId())
                 .email(user.getEmail())
-                .role(user.getRole().name())
+                .role(user.getRole().toString())
                 .build();
     }
 }

@@ -1,7 +1,7 @@
 package com.campus.event.service;
 
 import com.campus.event.dto.EventDto;
-import com.campus.event.entity.Event;
+import com.campus.event.model.Event;
 import com.campus.event.exception.ResourceNotFoundException;
 import com.campus.event.exception.UnauthorizedAccessException;
 import com.campus.event.repository.EventRepository;
@@ -39,7 +39,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDto updateEvent(Long id, EventDto eventDto, String requesterRole) {
+    public EventDto updateEvent(String id, EventDto eventDto, String requesterRole) {
         if ("ROLE_STUDENT".equals(requesterRole)) {
             throw new UnauthorizedAccessException("Students are not allowed to update events.");
         }
@@ -57,7 +57,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteEvent(Long id, String requesterRole) {
+    public void deleteEvent(String id, String requesterRole) {
         if ("ROLE_STUDENT".equals(requesterRole)) {
             throw new UnauthorizedAccessException("Students are not allowed to delete events.");
         }
@@ -69,10 +69,28 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDto getEventById(Long id) {
+    public EventDto getEventById(String id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
         return mapToDto(event);
+    }
+
+    @Override
+    public EventDto uploadPhotos(String id, org.springframework.web.multipart.MultipartFile[] files) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + id));
+
+        try {
+            for (org.springframework.web.multipart.MultipartFile file : files) {
+                String photoPath = com.campus.event.util.FileStorageUtil.saveFile("events", file);
+                event.getPhotos().add(photoPath);
+            }
+
+            event = eventRepository.save(event);
+            return mapToDto(event);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to store event photos: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -97,12 +115,18 @@ public class EventServiceImpl implements EventService {
     }
 
     private EventDto mapToDto(Event event) {
+        java.util.List<String> photos = event.getPhotos();
+        if (photos == null || photos.isEmpty()) {
+            photos = java.util.Collections.singletonList("https://images.unsplash.com/photo-1523580494863-6f30312248f5?w=500&q=80");
+        }
+
         return EventDto.builder()
                 .id(event.getId())
                 .name(event.getName())
                 .location(event.getLocation())
                 .date(event.getDate())
                 .description(event.getDescription())
+                .photos(photos)
                 .build();
     }
 }

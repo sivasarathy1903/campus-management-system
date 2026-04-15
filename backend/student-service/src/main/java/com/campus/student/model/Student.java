@@ -1,32 +1,35 @@
-package com.campus.student.dto;
+package com.campus.student.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 
+@Document(collection = "students")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentDto {
+public class Student {
+
+    @Id
     private String id;
+
+    private String name;
+    private String department;
+    private String email;
+    private String createdBy;
     private String profilePhoto;
 
-    @NotBlank(message = "Name is required")
-    private String name;
-
-    @NotBlank(message = "Department is required")
-    private String department;
-
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    private String email;
-
-    private String createdBy;
+    @CreatedDate
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 }

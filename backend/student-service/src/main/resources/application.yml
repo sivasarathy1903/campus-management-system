@@ -5,19 +5,9 @@ spring:
   application:
     name: student-service
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/student_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: 225590
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+  data:
+    mongodb:
+        uri: mongodb://localhost:27017/student_db
 
 logging:
   level:

@@ -15,7 +15,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class EventDto {
-    private Long id;
+    private String id;
+    private java.util.List<String> photos;
 
     @NotBlank(message = "Event name is required")
     private String name;

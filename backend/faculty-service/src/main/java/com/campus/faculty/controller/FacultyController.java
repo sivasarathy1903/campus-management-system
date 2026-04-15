@@ -22,19 +22,26 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FacultyDto> getFaculty(@PathVariable Long id) {
+    public ResponseEntity<FacultyDto> getFaculty(@PathVariable String id) {
         return ResponseEntity.ok(facultyService.getFacultyById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FacultyDto> updateFaculty(@PathVariable Long id, @Valid @RequestBody FacultyDto facultyDto) {
+    public ResponseEntity<FacultyDto> updateFaculty(@PathVariable String id, @Valid @RequestBody FacultyDto facultyDto) {
         return ResponseEntity.ok(facultyService.updateFaculty(id, facultyDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFaculty(@PathVariable String id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/photo")
+    public ResponseEntity<FacultyDto> uploadPhoto(
+            @PathVariable String id,
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        return ResponseEntity.ok(facultyService.uploadPhoto(id, file));
     }
 
     @GetMapping

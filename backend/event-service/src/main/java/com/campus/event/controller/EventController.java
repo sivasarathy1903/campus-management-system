@@ -26,14 +26,14 @@ public class EventController {
 
     // Anyone can view
     @GetMapping("/{id}")
-    public ResponseEntity<EventDto> getEvent(@PathVariable Long id) {
+    public ResponseEntity<EventDto> getEvent(@PathVariable String id) {
         return ResponseEntity.ok(eventService.getEventById(id));
     }
 
     // Only Admin & Faculty
     @PutMapping("/{id}")
     public ResponseEntity<EventDto> updateEvent(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody EventDto eventDto,
             @RequestHeader("X-User-Role") String role) {
         return ResponseEntity.ok(eventService.updateEvent(id, eventDto, role));
@@ -42,13 +42,20 @@ public class EventController {
     // Only Admin & Faculty
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestHeader("X-User-Role") String role) {
         eventService.deleteEvent(id, role);
         return ResponseEntity.noContent().build();
     }
 
     // Anyone can view all events
+    @PostMapping("/{id}/photos")
+    public ResponseEntity<EventDto> uploadPhotos(
+            @PathVariable String id,
+            @RequestParam("files") org.springframework.web.multipart.MultipartFile[] files) {
+        return ResponseEntity.ok(eventService.uploadPhotos(id, files));
+    }
+
     @GetMapping
     public ResponseEntity<Page<EventDto>> getAllEvents(
             @RequestParam(defaultValue = "0") int page,

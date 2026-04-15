@@ -32,7 +32,7 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails, String role, Long id) {
+    public String generateToken(UserDetails userDetails, String role, String id) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("role", role);
         extraClaims.put("id", id);
