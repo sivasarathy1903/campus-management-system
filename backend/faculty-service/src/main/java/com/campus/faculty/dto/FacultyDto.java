@@ -22,4 +22,6 @@ public class FacultyDto {
 
     @NotBlank(message = "Designation is required")
     private String designation;
+
+    private String imageUrl;
 }

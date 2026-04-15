@@ -21,4 +21,5 @@ public class Faculty {
     private String department;
     private String designation;
     private String profilePhoto;
+    private String imageUrl;
 }

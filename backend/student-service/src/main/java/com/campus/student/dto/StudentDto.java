@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class StudentDto {
     private String id;
     private String profilePhoto;
+    private String imageUrl;
 
     @NotBlank(message = "Name is required")
     private String name;

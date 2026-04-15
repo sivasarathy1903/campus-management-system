@@ -40,6 +40,7 @@ public class StudentServiceImpl implements StudentService {
                 .department(studentDto.getDepartment())
                 .email(studentDto.getEmail())
                 .createdBy(requesterEmail)
+                .imageUrl(studentDto.getImageUrl())
                 .build();
         
         student = studentRepository.save(student);
@@ -72,6 +73,7 @@ public class StudentServiceImpl implements StudentService {
 
         student.setName(studentDto.getName());
         student.setDepartment(studentDto.getDepartment());
+        student.setImageUrl(studentDto.getImageUrl());
         
         Student updatedStudent = studentRepository.save(student);
         return mapToDto(updatedStudent);
@@ -155,6 +157,7 @@ public class StudentServiceImpl implements StudentService {
                 .email(student.getEmail())
                 .createdBy(student.getCreatedBy())
                 .profilePhoto(profilePhoto)
+                .imageUrl(student.getImageUrl())
                 .createdAt(student.getCreatedAt())
                 .updatedAt(student.getUpdatedAt())
                 .build();

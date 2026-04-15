@@ -24,6 +24,7 @@ public class FacultyServiceImpl implements FacultyService {
                 .name(facultyDto.getName())
                 .department(facultyDto.getDepartment())
                 .designation(facultyDto.getDesignation())
+                .imageUrl(facultyDto.getImageUrl())
                 .build();
         faculty = facultyRepository.save(faculty);
         return mapToDto(faculty);
@@ -37,6 +38,7 @@ public class FacultyServiceImpl implements FacultyService {
         faculty.setName(facultyDto.getName());
         faculty.setDepartment(facultyDto.getDepartment());
         faculty.setDesignation(facultyDto.getDesignation());
+        faculty.setImageUrl(facultyDto.getImageUrl());
         
         Faculty updatedFaculty = facultyRepository.save(faculty);
         return mapToDto(updatedFaculty);
@@ -105,6 +107,7 @@ public class FacultyServiceImpl implements FacultyService {
                 .department(faculty.getDepartment())
                 .designation(faculty.getDesignation())
                 .profilePhoto(profilePhoto)
+                .imageUrl(faculty.getImageUrl())
                 .build();
     }
 }

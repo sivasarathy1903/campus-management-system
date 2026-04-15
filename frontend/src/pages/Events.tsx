@@ -11,6 +11,7 @@ interface Event {
   date: string;
   description: string;
   photos: string[];
+  imageUrl?: string;
   activePhotoIndex?: number;
 }
 
@@ -18,7 +19,7 @@ const Events = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', location: '', date: '', description: '' });
+  const [formData, setFormData] = useState({ name: '', location: '', date: '', description: '', imageUrl: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -94,10 +95,10 @@ const Events = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', location: '', date: '', description: '' });
-    setEditingId(null);
+    setFormData({ name: '', location: '', date: '', description: '', imageUrl: '' });
     setSelectedFiles([]);
     setPreviewUrls([]);
+    setEditingId(null);
   };
 
   const handleDelete = async (id: string) => {
@@ -146,7 +147,7 @@ const Events = () => {
                 {event.photos && event.photos.length > 0 && (
                   <Box sx={{ height: 180, overflow: 'hidden', position: 'relative' }}>
                     <img 
-                      src={event.photos[event.activePhotoIndex || 0]?.startsWith('http') ? event.photos[event.activePhotoIndex || 0] : `${import.meta.env.VITE_API_URL}${event.photos[event.activePhotoIndex || 0]}`}
+                      src={event.imageUrl || (event.photos[event.activePhotoIndex || 0]?.startsWith('http') ? event.photos[event.activePhotoIndex || 0] : `${import.meta.env.VITE_API_URL}${event.photos[event.activePhotoIndex || 0]}`)}
                       alt={event.name}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
@@ -198,7 +199,7 @@ const Events = () => {
                   <CardActions sx={{ justifyContent: 'flex-end', borderTop: '1px solid rgba(255, 255, 255, 0.05)', p: 1 }}>
                     <IconButton size="small" onClick={() => {
                       setEditingId(event.id);
-                      setFormData({ name: event.name, location: event.location, date: event.date, description: event.description });
+                      setFormData({ name: event.name, location: event.location, date: event.date, description: event.description, imageUrl: event.imageUrl || '' });
                       setOpen(true);
                     }}>
                       <Edit2 size={16} />
@@ -278,6 +279,15 @@ const Events = () => {
             margin="dense"
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Image URL (Optional)"
+            margin="dense"
+            placeholder="https://example.com/image.jpg"
+            value={formData.imageUrl}
+            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
           />
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>

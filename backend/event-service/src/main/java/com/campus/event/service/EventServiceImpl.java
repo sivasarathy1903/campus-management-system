@@ -32,6 +32,7 @@ public class EventServiceImpl implements EventService {
                 .location(eventDto.getLocation())
                 .date(eventDto.getDate())
                 .description(eventDto.getDescription())
+                .imageUrl(eventDto.getImageUrl())
                 .build();
         
         event = eventRepository.save(event);
@@ -51,6 +52,7 @@ public class EventServiceImpl implements EventService {
         event.setLocation(eventDto.getLocation());
         event.setDate(eventDto.getDate());
         event.setDescription(eventDto.getDescription());
+        event.setImageUrl(eventDto.getImageUrl());
         
         Event updatedEvent = eventRepository.save(event);
         return mapToDto(updatedEvent);
@@ -127,6 +129,7 @@ public class EventServiceImpl implements EventService {
                 .date(event.getDate())
                 .description(event.getDescription())
                 .photos(photos)
+                .imageUrl(event.getImageUrl())
                 .build();
     }
 }

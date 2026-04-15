@@ -29,4 +29,5 @@ public class EventDto {
     private LocalDate date;
 
     private String description;
+    private String imageUrl;
 }

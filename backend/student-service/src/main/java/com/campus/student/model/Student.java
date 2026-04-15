@@ -26,6 +26,7 @@ public class Student {
     private String email;
     private String createdBy;
     private String profilePhoto;
+    private String imageUrl;
 
     @CreatedDate
     private LocalDateTime createdAt;

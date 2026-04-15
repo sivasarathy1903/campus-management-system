@@ -28,4 +28,6 @@ public class Event {
 
     @Builder.Default
     private List<String> photos = new ArrayList<>();
+
+    private String imageUrl;
 }

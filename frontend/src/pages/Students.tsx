@@ -9,7 +9,7 @@ const Students = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', department: '', email: '' });
+  const [formData, setFormData] = useState({ name: '', department: '', email: '', imageUrl: '' });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -80,8 +80,7 @@ const Students = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', department: '', email: '' });
-    setEditingId(null);
+    setFormData({ name: '', department: '', email: '', imageUrl: '' });
     setSelectedFile(null);
     setPreviewUrl(null);
   };
@@ -105,7 +104,7 @@ const Students = () => {
       width: 80,
       renderCell: (params) => (
         <Avatar 
-          src={params.value?.startsWith('http') ? params.value : `${import.meta.env.VITE_API_URL}${params.value}`} 
+          src={params.row.imageUrl || (params.value?.startsWith('http') ? params.value : `${import.meta.env.VITE_API_URL}${params.value}`)} 
           sx={{ width: 40, height: 40, border: '2px solid rgba(255,255,255,0.1)' }}
         />
       )
@@ -124,8 +123,8 @@ const Students = () => {
             size="small"
             onClick={() => {
               setEditingId(params.row.id);
-              setFormData({ name: params.row.name, department: params.row.department, email: params.row.email });
-              setPreviewUrl(params.row.profilePhoto?.startsWith('http') ? params.row.profilePhoto : `${import.meta.env.VITE_API_URL}${params.row.profilePhoto}`);
+              setFormData({ name: params.row.name, department: params.row.department, email: params.row.email, imageUrl: params.row.imageUrl || '' });
+              setPreviewUrl(params.row.imageUrl || (params.row.profilePhoto?.startsWith('http') ? params.row.profilePhoto : `${import.meta.env.VITE_API_URL}${params.row.profilePhoto}`));
               setOpen(true);
             }}
             disabled={!isAdmin && user.email !== params.row.createdBy}
@@ -228,6 +227,15 @@ const Students = () => {
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             disabled={editingId !== null}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Image URL (Optional)"
+            margin="dense"
+            placeholder="https://example.com/image.jpg"
+            value={formData.imageUrl}
+            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
           />
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>
