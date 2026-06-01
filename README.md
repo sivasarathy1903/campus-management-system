@@ -127,9 +127,6 @@ Example endpoints:
 ## 👨‍💻 Author
 
 Sivasarathy A
-Sudharsan B
-Suganth T
-Sujay M S
 
 ---
 
